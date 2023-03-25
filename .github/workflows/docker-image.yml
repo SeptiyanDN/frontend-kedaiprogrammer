@@ -36,8 +36,8 @@ jobs:
         uses: appleboy/ssh-action@v0.1.6
         with:
           host: ${{ secrets.VPS_HOST }}
-          username: ${{ secrets.VPS_USERNAME }}
-          password: ${{ secrets.VPS_PASSWORD }}
+          username: kedaiprogrammer
+          password: Sukses@2023
           script: |
             docker stop my-app || true
             docker rm my-app || true
