@@ -17,10 +17,10 @@ COPY . .
 RUN npm run build
 
 # Set environment variables
-ENV PORT=4173
+ENV PORT=3000
 
 # Expose port 4173
-EXPOSE 4173
+EXPOSE 3000
 
 # Start the app
-CMD ["npm", "preview"]
+CMD ["npm", "start"]
