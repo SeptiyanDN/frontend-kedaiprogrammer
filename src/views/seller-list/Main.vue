@@ -74,7 +74,7 @@
                 <div class="w-9 h-9 image-fit zoom-in">
                   <Tippy
                     tag="img"
-                    alt="Midone - HTML Admin Template"
+                    alt="Kedai Programmer Indonesia - CMS Admin Dashboard"
                     class="rounded-lg border-white shadow-md"
                     :src="faker.images[0]"
                     :content="`Uploaded at ${faker.dates[0]}`"

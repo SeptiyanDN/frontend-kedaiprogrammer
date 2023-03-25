@@ -96,7 +96,7 @@
                   >
                     <img
                       class="rounded-md"
-                      alt="Midone - HTML Admin Template"
+                      alt="Kedai Programmer Indonesia - CMS Admin Dashboard"
                       :src="faker.photos[0]"
                     />
                     <Tippy
