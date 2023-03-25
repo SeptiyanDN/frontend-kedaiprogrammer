@@ -23,4 +23,4 @@ ENV PORT=4173
 EXPOSE 4173
 
 # Start the app
-CMD ["npm", "start"]
+CMD ["npm", "preview"]

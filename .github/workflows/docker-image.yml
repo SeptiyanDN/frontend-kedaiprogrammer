@@ -19,26 +19,27 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
 
       - name: Build Docker image
-        run: docker build -t my-image .
-
-      - name: Tag Docker image
-        run: docker tag my-image ${{ secrets.DOCKER_HUB_USERNAME }}/my-image:latest
+        run: |
+          docker build -t ${{ secrets.DOCKER_HUB_USERNAME }}/my-app:${{ github.sha }} .
+          docker tag ${{ secrets.DOCKER_HUB_USERNAME }}/my-app:${{ github.sha }} ${{ secrets.DOCKER_HUB_USERNAME }}/my-app:latest
 
       - name: Push Docker image to Docker Hub
         uses: docker/build-push-action@v2
         with:
           context: .
           push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/my-image:latest
+          tags: |
+            ${{ secrets.DOCKER_HUB_USERNAME }}/my-app:${{ github.sha }}
+            ${{ secrets.DOCKER_HUB_USERNAME }}/my-app:latest
 
       - name: SSH into VPS
         uses: appleboy/ssh-action@v0.1.6
         with:
           host: ${{ secrets.VPS_HOST }}
-          username: kedaiprogrammer
-          password: Sukses@2023
+          username: ${{ secrets.VPS_USERNAME }}
+          password: ${{ secrets.VPS_PASSWORD }}
           script: |
-            docker stop my-container || true
-            docker rm my-container || true
-            docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/my-image:latest
-            docker run -d --name my-container -p 4173:4173 ${{ secrets.DOCKER_HUB_USERNAME }}/my-image:latest
+            docker stop my-app || true
+            docker rm my-app || true
+            docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/my-app:latest
+            docker run -d --name my-app -p 80:80 ${{ secrets.DOCKER_HUB_USERNAME }}/my-app:latest
