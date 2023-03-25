@@ -6,7 +6,6 @@ on:
       - master
 
 jobs:
-  build-and-deploy:
   build-and-push-image:
     runs-on: ubuntu-latest
     steps:
