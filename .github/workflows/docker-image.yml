@@ -19,17 +19,17 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
 
       - name: Build Docker image
-        run: docker build -t kedaiprogrammer-frontend .
+        run: docker build -t my-image .
 
       - name: Tag Docker image
-        run: docker tag kedaiprogrammer-frontend ${{ secrets.DOCKER_HUB_USERNAME }}/kedaiprogrammer-frontend:latest
+        run: docker tag my-image ${{ secrets.DOCKER_HUB_USERNAME }}/my-image:latest
 
       - name: Push Docker image to Docker Hub
         uses: docker/build-push-action@v2
         with:
           context: .
           push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/kedaiprogrammer-frontend:latest
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/my-image:latest
 
       - name: SSH into VPS
         uses: appleboy/ssh-action@v0.1.6
@@ -40,5 +40,5 @@ jobs:
           script: |
             docker stop my-container || true
             docker rm my-container || true
-            docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/kedaiprogrammer-frontend:latest
-            docker run -d --name my-container -p 80:4173 ${{ secrets.DOCKER_HUB_USERNAME }}/kedaiprogrammer-frontend:latest
+            docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/my-image:latest
+            docker run -d --name my-container -p 80:4173 ${{ secrets.DOCKER_HUB_USERNAME }}/my-image:latest

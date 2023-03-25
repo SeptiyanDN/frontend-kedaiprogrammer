@@ -134,7 +134,7 @@
 
 <script setup>
 import { ref, reactive, onMounted } from "vue";
-import xlsx from "xlsx";
+import * as xlsx from 'xlsx';
 import { createIcons, icons } from "lucide";
 import Tabulator from "tabulator-tables";
 import dom from "@left4code/tw-starter/dist/js/dom";
