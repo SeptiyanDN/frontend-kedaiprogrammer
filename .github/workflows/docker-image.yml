@@ -1,0 +1,44 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+
+      - name: Build Docker image
+        run: docker build -t kedaiprogrammer-frontend .
+
+      - name: Tag Docker image
+        run: docker tag kedaiprogrammer-frontend ${{ secrets.DOCKER_HUB_USERNAME }}/kedaiprogrammer-frontend:latest
+
+      - name: Push Docker image to Docker Hub
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/kedaiprogrammer-frontend:latest
+
+      - name: SSH into VPS
+        uses: appleboy/ssh-action@v0.1.6
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: kedaiprogrammer
+          password: Sukses@2023
+          script: |
+            docker stop my-container || true
+            docker rm my-container || true
+            docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/kedaiprogrammer-frontend:latest
+            docker run -d --name my-container -p 80:4173 ${{ secrets.DOCKER_HUB_USERNAME }}/kedaiprogrammer-frontend:latest
