@@ -114,7 +114,7 @@ const password = ref('');
 const login = async () => {
   console.log(username.value);
   try {
-    const response = await axios.post("http://localhost:3500/api/v1/auth/login", {
+    const response = await axios.post("http://54.169.58.48:8080/api/v1/auth/login", {
       username: username.value,
       password: password.value,
     });
