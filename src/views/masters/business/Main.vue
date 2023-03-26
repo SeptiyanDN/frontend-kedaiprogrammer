@@ -188,7 +188,7 @@ export default {
   },
   methods: {
     getBusiness() {
-      axios.get("http://54.169.58.48:8080/api/v1/business/list",{
+      axios.get("http://backend.septiyan.my.id:8080/api/v1/business/list",{
         headers: {
           "Content-Type": "application/json",
           "Authorization" : `Bearer ${localStorage.getItem("token")}`
