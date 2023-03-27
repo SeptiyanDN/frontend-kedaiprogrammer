@@ -127,9 +127,6 @@ const filter = reactive({
   value: "",
 });
 
-const imageAssets = import.meta.globEager(
-  `/src/assets/images/*.{jpg,jpeg,png,svg}`
-);
 const initTabulator = () => {
   tabulator.value = new Tabulator(tableRef.value, {
     ajaxURL: "https://backend.septiyan.my.id/api/v1/business/list",
@@ -144,8 +141,8 @@ const initTabulator = () => {
     printAsHtml: true,
     printStyled: true,
     pagination: "remote",
-    paginationSize: 10,
-    paginationSizeSelector: [10, 20, 30, 40],
+    paginationSize: 5,
+    paginationSizeSelector: [5, 10, 20, 25],
     layout: "fitColumns",
     responsiveLayout: "collapse",
     placeholder: "No matching records found",
@@ -239,7 +236,7 @@ const initTabulator = () => {
         download: true,
       },
       {
-        title: "STATUS",
+        title: "Status",
         field: "is_active",
         visible: false,
         print: true,
@@ -278,7 +275,7 @@ const onFilter = () => {
 
 // On reset filter
 const onResetFilter = () => {
-  filter.field = "name";
+  filter.field = "business_name";
   filter.type = "like";
   filter.value = "";
   onFilter();
