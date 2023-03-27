@@ -5,8 +5,7 @@ import DashboardOverview1 from "../views/dashboard-overview-1/Main.vue";
 import DashboardOverview2 from "../views/dashboard-overview-2/Main.vue";
 import DashboardOverview3 from "../views/dashboard-overview-3/Main.vue";
 import DashboardOverview4 from "../views/dashboard-overview-4/Main.vue";
-import Business from "../views/masters/business/Main.vue";
-import Categories from "../views/masters/categories/Main.vue";
+import Business from "../views/masters/master_business/Main.vue";
 import AddProduct from "../views/add-product/Main.vue";
 import ProductList from "../views/product-list/Main.vue";
 import ProductGrid from "../views/product-grid/Main.vue";
@@ -90,14 +89,9 @@ const routes = [
         component: DashboardOverview1,
       },
       {
-        path:"business",
+        path:"manage-business",
         name :"business",
         component : Business,
-      },
-      {
-        path:"categories",
-        name : "categories",
-        component : Categories,
       },
       {
         path: "dashboard-overview-2",

@@ -38,14 +38,8 @@ export const useSideMenuStore = defineStore("sideMenu", {
           {
             icon : "",
             pageName :"business",
-            title : "Business",
+            title : "Manage Business",
           },
-          {
-            icon : "",
-            pageName :"categories",
-            title : "Categories",
-          },
- 
         ]
       },
       {

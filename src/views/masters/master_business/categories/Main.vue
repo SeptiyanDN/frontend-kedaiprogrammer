@@ -198,10 +198,10 @@ export default {
     };
   },
   mounted() {
-    this.getBusiness();
+    this.getCategories();
   },
   methods: {
-    getBusiness() {
+    getCategories() {
       axios.get("https://backend.septiyan.my.id/api/v1/categories/list",{
         headers: {
           "Content-Type": "application/json",

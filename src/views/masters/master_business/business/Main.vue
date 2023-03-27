@@ -1,11 +1,10 @@
-
 <template>
-  <h2 class="intro-y text-lg font-medium mt-10">Business</h2>
+      <h2 class="intro-y text-lg font-medium mt-10">Business</h2>
   <div class="grid grid-cols-12 gap-6 mt-5">
     <div
       class="intro-y col-span-12 flex flex-wrap sm:flex-nowrap items-center mt-2"
     >
-      <button class="btn btn-primary shadow-md mr-2">Add New Business</button>
+    <AddModals></AddModals>
       <Dropdown>
         <DropdownToggle class="btn px-2 box">
           <span class="w-5 h-5 flex items-center justify-center">
@@ -144,6 +143,8 @@
     </div>
     <!-- END: Pagination -->
   </div>
+
+
   <!-- BEGIN: Delete Confirmation Modal -->
   <Modal
     :show="deleteConfirmationModal"
@@ -170,18 +171,20 @@
       </div>
     </ModalBody>
   </Modal>
-  <!-- END: Delete Confirmation Modal -->
 </template>
 
 <script>
 import axios from "axios";
-
+import AddModals from "./AddBusiness.vue"
 export default {
   data() {
     return {
       business: [],
       deleteConfirmationModal: false,
     };
+  },
+  components:{
+    AddModals,
   },
   mounted() {
     this.getBusiness();
