@@ -18,6 +18,7 @@
             class="form-select w-full sm:w-32 2xl:w-full mt-2 sm:mt-0 sm:w-auto"
           >
             <option value="business_name">Business Name</option>
+            <option value="is_active">Status</option>
           </select>
         </div>
         <div class="sm:flex items-center sm:mr-4 mt-2 xl:mt-0">
@@ -125,7 +126,12 @@ const filter = reactive({
   field: "business_name",
   type: "like",
   value: "",
-});
+},{
+  field:"is_active",
+  type: "like",
+  value: "",
+}
+);
 
 const initTabulator = () => {
   tabulator.value = new Tabulator(tableRef.value, {
@@ -136,8 +142,6 @@ const initTabulator = () => {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       }
     },
-    ajaxFiltering: true,
-    ajaxSorting: true,
     printAsHtml: true,
     printStyled: true,
     pagination: "remote",
