@@ -1,205 +1,319 @@
 <template>
-      <h2 class="intro-y text-lg font-medium mt-10">Business</h2>
-  <div class="grid grid-cols-12 gap-6 mt-5">
-    <div
-      class="intro-y col-span-12 flex flex-wrap sm:flex-nowrap items-center mt-2"
-    >
-    <AddModals></AddModals>
-      <Dropdown>
-        <DropdownToggle class="btn px-2 box">
-          <span class="w-5 h-5 flex items-center justify-center">
-            <PlusIcon class="w-4 h-4" />
-          </span>
-        </DropdownToggle>
-        <DropdownMenu class="w-40">
-          <DropdownContent>
-            <DropdownItem>
-              <PrinterIcon class="w-4 h-4 mr-2" /> Print
-            </DropdownItem>
-            <DropdownItem>
-              <FileTextIcon class="w-4 h-4 mr-2" /> Export to Excel
-            </DropdownItem>
-            <DropdownItem>
-              <FileTextIcon class="w-4 h-4 mr-2" /> Export to PDF
-            </DropdownItem>
-          </DropdownContent>
-        </DropdownMenu>
-      </Dropdown>
-      <div class="hidden md:block mx-auto text-slate-500">
-        Showing 1 to 10 of 150 entries
-      </div>
-      <div class="w-full sm:w-auto mt-3 sm:mt-0 sm:ml-auto md:ml-0">
-        <div class="w-56 relative text-slate-500">
+  <div class="intro-y flex flex-col sm:flex-row items-center mt-8">
+    <h2 class="text-lg font-medium mr-auto">Manage Business</h2>
+    <div class="w-full sm:w-auto flex mt-4 sm:mt-0">
+      <button class="btn btn-primary shadow-md ">Add New Business</button>
+    </div>
+  </div>
+  <div class="intro-y box p-5 mt-5">
+    <div class="flex flex-col sm:flex-row sm:items-end xl:items-start">
+      <form id="tabulator-html-filter-form" class="xl:flex sm:mr-auto">
+        <div class="sm:flex items-center sm:mr-4">
+          <label class="w-12 flex-none xl:w-auto xl:flex-initial mr-2"
+            >Field</label
+          >
+          <select
+            id="tabulator-html-filter-field"
+            v-model="filter.field"
+            class="form-select w-full sm:w-32 2xl:w-full mt-2 sm:mt-0 sm:w-auto"
+          >
+            <option value="business_name">Business Name</option>
+          </select>
+        </div>
+        <div class="sm:flex items-center sm:mr-4 mt-2 xl:mt-0">
+          <label class="w-12 flex-none xl:w-auto xl:flex-initial mr-2"
+            >Type</label
+          >
+          <select
+            id="tabulator-html-filter-type"
+            v-model="filter.type"
+            class="form-select w-full mt-2 sm:mt-0 sm:w-auto"
+          >
+            <option value="like" selected>like</option>
+            <option value="=">=</option>
+            <option value="<">&lt;</option>
+            <option value="<=">&lt;=</option>
+            <option value=">">></option>
+            <option value=">=">>=</option>
+            <option value="!=">!=</option>
+          </select>
+        </div>
+        <div class="sm:flex items-center sm:mr-4 mt-2 xl:mt-0">
+          <label class="w-12 flex-none xl:w-auto xl:flex-initial mr-2"
+            >Value</label
+          >
           <input
+            id="tabulator-html-filter-value"
+            v-model="filter.value"
             type="text"
-            class="form-control w-56 box pr-10"
+            class="form-control sm:w-40 2xl:w-full mt-2 sm:mt-0"
             placeholder="Search..."
           />
-          <SearchIcon class="w-4 h-4 absolute my-auto inset-y-0 mr-3 right-0" />
         </div>
-      </div>
-    </div>
-    <!-- BEGIN: Data List -->
-    <div class="intro-y col-span-12 overflow-auto lg:overflow-visible">
-      <table class="table table-report -mt-2">
-        <thead>
-          <tr>
-            <th class="whitespace-nowrap">BUSINESS NAME</th>
-            <th class="text-center whitespace-nowrap">STATUS</th>
-            <th class="text-center whitespace-nowrap">ACTIONS</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr
-            v-for="(item, _) in business"
-            class="intro-x"
+        <div class="mt-2 xl:mt-0">
+          <button
+            id="tabulator-html-filter-go"
+            type="button"
+            class="btn btn-primary w-full sm:w-16"
+            @click="onFilter"
           >
-            <td>
-              <a href="" class="font-medium whitespace-nowrap">{{
-                item.business_name
-              }}</a>
-            </td>
-        
-            <td class="w-40">
-              <div
-                class="flex items-center justify-center"
-                :class="{
-                  'text-success': item.isActive,
-                  'text-danger': item.isActive,
-                }"
-              >
-                <CheckSquareIcon class="w-4 h-4 mr-2" />
-                {{ item.isActive ? "Active" : "Inactive" }}
-              </div>
-            </td>
-            <td class="table-report__action w-56">
-              <div class="flex justify-center items-center">
-                <a class="flex items-center mr-3" href="javascript:;">
-                  <CheckSquareIcon class="w-4 h-4 mr-1" /> Edit
-                </a>
-                <a
-                  class="flex items-center text-danger"
-                  href="javascript:;"
-                  @click="deleteConfirmationModal = true"
-                >
-                  <Trash2Icon class="w-4 h-4 mr-1" /> Delete
-                </a>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <!-- END: Data List -->
-    <!-- BEGIN: Pagination -->
-    <div
-      class="intro-y col-span-12 flex flex-wrap sm:flex-row sm:flex-nowrap items-center"
-    >
-      <nav class="w-full sm:w-auto sm:mr-auto">
-        <ul class="pagination">
-          <li class="page-item">
-            <a class="page-link" href="#">
-              <ChevronsLeftIcon class="w-4 h-4" />
-            </a>
-          </li>
-          <li class="page-item">
-            <a class="page-link" href="#">
-              <ChevronLeftIcon class="w-4 h-4" />
-            </a>
-          </li>
-          <li class="page-item">
-            <a class="page-link" href="#">...</a>
-          </li>
-          <li class="page-item">
-            <a class="page-link" href="#">1</a>
-          </li>
-          <li class="page-item active">
-            <a class="page-link" href="#">2</a>
-          </li>
-          <li class="page-item">
-            <a class="page-link" href="#">3</a>
-          </li>
-          <li class="page-item">
-            <a class="page-link" href="#">...</a>
-          </li>
-          <li class="page-item">
-            <a class="page-link" href="#">
-              <ChevronRightIcon class="w-4 h-4" />
-            </a>
-          </li>
-          <li class="page-item">
-            <a class="page-link" href="#">
-              <ChevronsRightIcon class="w-4 h-4" />
-            </a>
-          </li>
-        </ul>
-      </nav>
-      <select class="w-20 form-select box mt-3 sm:mt-0">
-        <option>10</option>
-        <option>25</option>
-        <option>35</option>
-        <option>50</option>
-      </select>
-    </div>
-    <!-- END: Pagination -->
-  </div>
-
-
-  <!-- BEGIN: Delete Confirmation Modal -->
-  <Modal
-    :show="deleteConfirmationModal"
-    @hidden="deleteConfirmationModal = false"
-  >
-    <ModalBody class="p-0">
-      <div class="p-5 text-center">
-        <XCircleIcon class="w-16 h-16 text-danger mx-auto mt-3" />
-        <div class="text-3xl mt-5">Are you sure?</div>
-        <div class="text-slate-500 mt-2">
-          Do you really want to delete these records? <br />This process cannot
-          be undone.
+            Go
+          </button>
+          <button
+            id="tabulator-html-filter-reset"
+            type="button"
+            class="btn btn-secondary w-full sm:w-16 mt-2 sm:mt-0 sm:ml-1"
+            @click="onResetFilter"
+          >
+            Reset
+          </button>
         </div>
-      </div>
-      <div class="px-5 pb-8 text-center">
+      </form>
+      <div class="flex mt-5 sm:mt-0">
         <button
-          type="button"
-          @click="deleteConfirmationModal = false"
-          class="btn btn-outline-secondary w-24 mr-1"
+          id="tabulator-print"
+          class="btn btn-outline-secondary w-1/2 sm:w-auto mr-2"
+          @click="onPrint"
         >
-          Cancel
+          <PrinterIcon class="w-4 h-4 mr-2" /> Print
         </button>
-        <button type="button" class="btn btn-danger w-24">Delete</button>
+        <Dropdown class="w-1/2 sm:w-auto">
+          <DropdownToggle class="btn btn-outline-secondary w-full sm:w-auto">
+            <FileTextIcon class="w-4 h-4 mr-2" /> Export
+            <ChevronDownIcon class="w-4 h-4 ml-auto sm:ml-2" />
+          </DropdownToggle>
+          <DropdownMenu class="w-40">
+            <DropdownContent>
+              <DropdownItem @click="onExportCsv">
+                <FileTextIcon class="w-4 h-4 mr-2" /> Export CSV
+              </DropdownItem>
+              <DropdownItem @click="onExportJson">
+                <FileTextIcon class="w-4 h-4 mr-2" /> Export JSON
+              </DropdownItem>
+              <DropdownItem @click="onExportXlsx">
+                <FileTextIcon class="w-4 h-4 mr-2" /> Export XLSX
+              </DropdownItem>
+              <DropdownItem @click="onExportHtml">
+                <FileTextIcon class="w-4 h-4 mr-2" /> Export HTML
+              </DropdownItem>
+            </DropdownContent>
+          </DropdownMenu>
+        </Dropdown>
       </div>
-    </ModalBody>
-  </Modal>
+    </div>
+    <div class="overflow-x-auto scrollbar-hidden">
+      <div
+        id="tabulator"
+        ref="tableRef"
+        class="mt-5 table-report table-report--tabulator"
+      ></div>
+    </div>
+  </div>
+  <!-- END: HTML Table Data -->
 </template>
 
-<script>
-import axios from "axios";
-import AddModals from "./AddBusiness.vue"
-export default {
-  data() {
-    return {
-      business: [],
-      deleteConfirmationModal: false,
-    };
-  },
-  components:{
-    AddModals,
-  },
-  mounted() {
-    this.getBusiness();
-  },
-  methods: {
-    getBusiness() {
-      axios.get("https://backend.septiyan.my.id/api/v1/business/list",{
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization" : `Bearer ${localStorage.getItem("token")}`
+<script setup>
+import { ref, reactive, onMounted } from "vue";
+import * as xlsx from 'xlsx';
+import { createIcons, icons } from "lucide";
+import Tabulator from "tabulator-tables";
+import dom from "@left4code/tw-starter/dist/js/dom";
+
+const tableRef = ref();
+const tabulator = ref();
+const filter = reactive({
+  field: "business_name",
+  type: "like",
+  value: "",
+});
+
+const imageAssets = import.meta.globEager(
+  `/src/assets/images/*.{jpg,jpeg,png,svg}`
+);
+const initTabulator = () => {
+  tabulator.value = new Tabulator(tableRef.value, {
+    ajaxURL: "https://backend.septiyan.my.id/api/v1/business/list",
+    ajaxConfig:{
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      }
+    },
+    ajaxFiltering: true,
+    ajaxSorting: true,
+    printAsHtml: true,
+    printStyled: true,
+    pagination: "remote",
+    paginationSize: 10,
+    paginationSizeSelector: [10, 20, 30, 40],
+    layout: "fitColumns",
+    responsiveLayout: "collapse",
+    placeholder: "No matching records found",
+    columns: [
+      {
+        formatter: "responsiveCollapse",
+        width: 40,
+        minWidth: 30,
+        hozAlign: "center",
+        resizable: false,
+        headerSort: false,
+      },
+
+      // For HTML table
+      {
+        title: "Business Name",
+        minWidth: 200,
+        responsive: 0,
+        field: "business_name",
+        vertAlign: "middle",
+        print: false,
+        download: false,
+        formatter(cell) {
+          return `<div>
+                <div class="font-medium whitespace-nowrap">${
+                  cell.getData().business_name
+                }</div>
+                <div class="text-slate-500 text-xs whitespace-nowrap">${
+                  cell.getData().domain
+                }</div>
+              </div>`;
         },
-      }).then((response) => {
-        this.business = response.data.data;
+      },
+      {
+        title: "STATUS",
+        minWidth: 200,
+        field: "is_active",
+        hozAlign: "center",
+        vertAlign: "middle",
+        print: false,
+        download: false,
+        formatter(cell) {
+          return `<div class="flex items-center lg:justify-center ${
+            cell.getData().status ? "text-success" : "text-danger"
+          }">
+                <i data-lucide="check-square" class="w-4 h-4 mr-2"></i> ${
+                  cell.getData().status ? "Active" : "Inactive"
+                }
+              </div>`;
+        },
+      },
+      {
+        title: "ACTIONS",
+        minWidth: 200,
+        field: "actions",
+        responsive: 1,
+        hozAlign: "center",
+        vertAlign: "middle",
+        print: false,
+        download: false,
+        formatter() {
+          const a = dom(`<div class="flex lg:justify-center items-center">
+                <a class="flex items-center mr-3" href="javascript:;">
+                  <i data-lucide="check-square" class="w-4 h-4 mr-1"></i> Edit
+                </a>
+                <a class="flex items-center text-danger" href="javascript:;">
+                  <i data-lucide="trash-2" class="w-4 h-4 mr-1"></i> Delete
+                </a>
+              </div>`);
+          dom(a).on("click", function () {
+            // On click actions
+          });
+
+          return a[0];
+        },
+      },
+
+      // For print format
+      {
+        title: "Business Name",
+        field: "business_name",
+        visible: false,
+        print: true,
+        download: true,
+      },
+      {
+        title: "Business Domain",
+        field: "domain",
+        visible: false,
+        print: true,
+        download: true,
+      },
+      {
+        title: "STATUS",
+        field: "is_active",
+        visible: false,
+        print: true,
+        download: true,
+        formatterPrint(cell) {
+          return cell.getValue() ? "Active" : "Inactive";
+        },
+      },
+    ],
+    renderComplete() {
+      createIcons({
+        icons,
+        "stroke-width": 1.5,
+        nameAttr: "data-lucide",
       });
     },
-  },
+  });
 };
+
+// Redraw table onresize
+const reInitOnResizeWindow = () => {
+  window.addEventListener("resize", () => {
+    tabulator.value.redraw();
+    createIcons({
+      icons,
+      "stroke-width": 1.5,
+      nameAttr: "data-lucide",
+    });
+  });
+};
+
+// Filter function
+const onFilter = () => {
+  tabulator.value.setFilter(filter.field, filter.type, filter.value);
+};
+
+// On reset filter
+const onResetFilter = () => {
+  filter.field = "name";
+  filter.type = "like";
+  filter.value = "";
+  onFilter();
+};
+
+// Export
+const onExportCsv = () => {
+  tabulator.value.download("csv", "data.csv");
+};
+
+const onExportJson = () => {
+  tabulator.value.download("json", "data.json");
+};
+
+const onExportXlsx = () => {
+  const win = window;
+  win.XLSX = xlsx;
+  tabulator.value.download("xlsx", "data.xlsx", {
+    sheetName: "Products",
+  });
+};
+
+const onExportHtml = () => {
+  tabulator.value.download("html", "data.html", {
+    style: true,
+  });
+};
+
+// Print
+const onPrint = () => {
+  tabulator.value.print();
+};
+
+onMounted(() => {
+  initTabulator();
+  reInitOnResizeWindow();
+});
 </script>
