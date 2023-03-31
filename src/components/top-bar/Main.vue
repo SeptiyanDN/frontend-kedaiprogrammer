@@ -162,9 +162,9 @@
       <DropdownMenu class="w-56">
         <DropdownContent class="bg-primary text-white">
           <DropdownHeader tag="div" class="!font-normal">
-            <div class="font-medium">{{ $f()[0].users[0].name }}</div>
+            <div class="font-medium">{{ currentUser.username }}</div>
             <div class="text-xs text-white/70 mt-0.5 dark:text-slate-500">
-              {{ $f()[0].jobs[0] }}
+              Backend Developer
             </div>
           </DropdownHeader>
           <DropdownDivider class="border-white/[0.08]" />
@@ -201,5 +201,20 @@ const showSearchDropdown = () => {
 };
 const hideSearchDropdown = () => {
   searchDropdown.value = false;
+};
+</script>
+
+<script>
+
+export default {
+  data() {
+    return {
+      currentUser: {},
+    };
+  },
+  mounted() {
+    // Set the value of currentUser to the value retrieved from localStorage
+    this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+  },
 };
 </script>

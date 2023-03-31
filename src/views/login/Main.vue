@@ -119,6 +119,8 @@ const login = async () => {
       password: password.value,
     });
     const token = response.data.data.token;
+    const decodedToken = JSON.parse(atob(token.split('.')[1]));
+    localStorage.setItem("currentUser", JSON.stringify(decodedToken));
     localStorage.setItem("token", token);
     router.push("/");
 
