@@ -111,11 +111,13 @@
         };
         console.log(dataToSend);
         axios.post(`${process.env.VITE_API_URL}/business`, dataToSend, {
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${localStorage.getItem("token")}`
-    }
-  })
+  withCredentials: true,
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${localStorage.getItem("token")}`,
+    'Access-Control-Allow-Origin': '*'
+  }
+})
   .then(response => {
     console.log(response.data)
     this.headerFooterModalPreview = false
