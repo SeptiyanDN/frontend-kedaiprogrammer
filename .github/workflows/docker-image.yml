@@ -37,5 +37,7 @@ jobs:
           script: |
             docker stop frontend || true
             docker rm frontend || true
+            docker images || true
+            docker rmi $(docker images -q) || true
             docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/frontend:latest
             docker run -d -p 4173:4173 --name frontend kedaiprogrammer/frontend:latest

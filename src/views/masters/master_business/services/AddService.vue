@@ -5,7 +5,7 @@
         @click="headerFooterModalPreview = true"
         class="btn btn-primary mr-2"
       >
-        Add New Categories
+        Add New Service
       </a>
     </div>
     <Modal
@@ -14,7 +14,7 @@
       @hidden="headerFooterModalPreview = false"
     >
       <ModalHeader>
-        <h2 class="font-medium text-base mr-auto">Add New Business</h2>
+        <h2 class="font-medium text-base mr-auto">Add New Service</h2>
         <button class="btn btn-outline-secondary hidden sm:flex">
           <FileIcon class="w-4 h-4 mr-2" /> Read Docs
         </button>
@@ -34,13 +34,13 @@
       </ModalHeader>
       <ModalBody class="grid grid-cols-12 gap-4 gap-y-3">
         <div class="col-span-12 sm:col-span-12">
-          <label for="modal-form-1" class="form-label">Categories Name : </label>
+          <label for="modal-form-1" class="form-label">Service Name : </label>
           <input
             id="modal-form-1"
             type="text"
             class="form-control"
-            placeholder="example@gmail.com"
-            v-model="category_name"
+            placeholder="Service Name"
+            v-model="service_name"
           />
         </div>
         <div class="col-span-12 sm:col-span-12">
@@ -106,10 +106,23 @@
       },
       sendData() {
         const dataToSend = {
-          category_name: this.category_name,
+          service_name: this.service_name,
           business_id: this.selected_business_id,
         };
         console.log(dataToSend);
+        axios.post(`${process.env.VITE_API_URL}/business`, dataToSend, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("token")}`
+    }
+  })
+  .then(response => {
+    console.log(response.data)
+    this.headerFooterModalPreview = false
+  })
+  .catch(error => {
+    console.log(error)
+  })
         // send data to API here
         this.headerFooterModalPreview = false;
       },

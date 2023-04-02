@@ -2,7 +2,8 @@
   <div class="intro-y flex flex-col sm:flex-row items-center mt-8">
     <h2 class="text-lg font-medium mr-auto">Manage Business</h2>
     <div class="w-full sm:w-auto flex mt-4 sm:mt-0">
-      <button class="btn btn-primary shadow-md ">Add New Business</button>
+<AddService></AddService>
+
     </div>
   </div>
   <div class="intro-y box p-5 mt-5">
@@ -30,9 +31,9 @@
             v-model="filter.type"
             class="form-select w-full mt-2 sm:mt-0 sm:w-auto"
           >
-            <option value="like" selected>like</option>
-            <option value="eq">=</option>
-            <option value="neq">!=</option>
+            <option value="like">like</option>
+            <option value="=">=</option>
+            <option value="!=">!=</option>
           </select>
         </div>
         <div class="sm:flex items-center sm:mr-4 mt-2 xl:mt-0">
@@ -115,17 +116,20 @@ import * as xlsx from 'xlsx';
 import { createIcons, icons } from "lucide";
 import Tabulator from "tabulator-tables";
 import dom from "@left4code/tw-starter/dist/js/dom";
+import AddService from "./AddService.vue"
 
 const tableRef = ref();
 const tabulator = ref();
+
 const filter = reactive({
   field: "service_name",
   type: "like",
   value: "",
-}
+},
 );
 
 const initTabulator = () => {
+
   tabulator.value = new Tabulator(tableRef.value, {
     ajaxURL: `${process.env.VITE_API_URL}/services/list`,
     ajaxConfig:{
@@ -134,6 +138,7 @@ const initTabulator = () => {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       }
     },
+    
     ajaxFiltering: true,
     ajaxSorting: true,
     printAsHtml: true,
@@ -144,6 +149,7 @@ const initTabulator = () => {
     layout: "fitColumns",
     responsiveLayout: "collapse",
     placeholder: "No matching records found",
+    
     columns: [
       {
         formatter: "responsiveCollapse",
@@ -265,6 +271,7 @@ const initTabulator = () => {
       });
     },
   });
+  
 };
 
 // Redraw table onresize
@@ -286,7 +293,7 @@ const onFilter = () => {
 
 // On reset filter
 const onResetFilter = () => {
-  filter.field = "business_name";
+  filter.field = "service_name";
   filter.type = "like";
   filter.value = "";
   onFilter();
