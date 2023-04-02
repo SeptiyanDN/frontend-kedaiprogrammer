@@ -92,7 +92,7 @@
       getBusiness() {
         axios
           .get(
-            "https://backend.septiyan.my.id/api/v1/business/list",
+            `${process.env.VITE_API_URL}/business/list`,
             {
               headers: {
                 "Content-Type": "application/json",

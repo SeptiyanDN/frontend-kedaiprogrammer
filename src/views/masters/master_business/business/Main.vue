@@ -135,7 +135,7 @@ const filter = reactive({
 
 const initTabulator = () => {
   tabulator.value = new Tabulator(tableRef.value, {
-    ajaxURL: "https://backend.septiyan.my.id/api/v1/business/list",
+    ajaxURL: `${process.env.VITE_API_URL}/business/list`,
     ajaxConfig:{
       headers: {
         "Content-Type": "application/json",
@@ -190,10 +190,10 @@ const initTabulator = () => {
         download: false,
         formatter(cell) {
           return `<div class="flex items-center lg:justify-center ${
-            cell.getData().status ? "text-success" : "text-danger"
+            cell.getData().is_active ? "text-success" : "text-danger"
           }">
                 <i data-lucide="check-square" class="w-4 h-4 mr-2"></i> ${
-                  cell.getData().status ? "Active" : "Inactive"
+                  cell.getData().is_active ? "Active" : "Inactive"
                 }
               </div>`;
         },

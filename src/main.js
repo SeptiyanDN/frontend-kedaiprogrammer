@@ -10,4 +10,5 @@ const app = createApp(App).use(router).use(createPinia());
 globalComponents(app);
 utils(app);
 
+
 app.mount("#app");

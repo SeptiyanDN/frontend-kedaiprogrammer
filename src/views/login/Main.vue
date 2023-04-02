@@ -114,7 +114,7 @@ const password = ref('');
 const login = async () => {
   console.log(username.value);
   try {
-    const response = await axios.post("https://backend.septiyan.my.id/api/v1/auth/login", {
+    const response = await axios.post(`${process.env.VITE_API_URL}/auth/login`, {
       username: username.value,
       password: password.value,
     });

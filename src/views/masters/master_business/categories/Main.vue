@@ -205,7 +205,7 @@ export default {
   },
   methods: {
     getCategories() {
-      axios.get("https://backend.septiyan.my.id/api/v1/categories/list",{
+      axios.get(`${process.env.VITE_API_URL}/categories/list`,{
         headers: {
           "Content-Type": "application/json",
           "Authorization" : `Bearer ${localStorage.getItem("token")}`
