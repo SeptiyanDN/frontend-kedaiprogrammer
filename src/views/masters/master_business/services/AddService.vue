@@ -79,7 +79,7 @@
       return {
         headerFooterModalPreview: false,
         business: [],
-        category_name: "",
+        service_name: "",
         selected_business_id: "",
       };
     },
@@ -111,13 +111,12 @@
         };
         console.log(dataToSend);
         axios.post(`${process.env.VITE_API_URL}/business`, dataToSend, {
-  withCredentials: true,
-  headers: {
-    'Content-Type': 'application/json',
-    'Authorization': `Bearer ${localStorage.getItem("token")}`,
-    'Access-Control-Allow-Origin': '*'
-  }
-})
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem("token")}`,
+                'Access-Control-Allow-Origin': 'http://localhost:3000'
+            }
+        })
   .then(response => {
     console.log(response.data)
     this.headerFooterModalPreview = false

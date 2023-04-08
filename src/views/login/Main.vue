@@ -112,7 +112,6 @@ const username = ref('');
 const password = ref('');
 
 const login = async () => {
-  console.log(username.value);
   try {
     const response = await axios.post(`${process.env.VITE_API_URL}/auth/login`, {
       username: username.value,
