@@ -65,7 +65,7 @@
         >
           Cancel
         </button>
-        <button type="button" class="btn btn-primary w-20" @click="sendData">
+        <button type="button" class="btn btn-primary w-20" @click="CreateServices()">
           Send
         </button>
       </ModalFooter>
@@ -87,7 +87,6 @@
     mounted() {
       this.getBusiness();
     },
-  
     methods: {
       getBusiness() {
         axios
@@ -104,19 +103,30 @@
             this.business = response.data.data;
           });
       },
-      sendData() {
+       async CreateServices() {
         const dataToSend = {
-          service_name: this.service_name,
-          business_id: this.selected_business_id,
-        };
-        console.log(dataToSend);
-        axios.post(`${process.env.VITE_API_URL}/services`, dataToSend, {
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem("token")}`,
-            }
-        })
+  service_name: this.service_name,
+  business_id: this.selected_business_id,
+};
+
+const header = {
+  'Content-Type': 'application/json',
+  'Authorization': `Bearer ${localStorage.getItem("token")}`,
+};
+
+const options = {
+  method: 'POST',
+  headers: header,
+  body: JSON.stringify(dataToSend),
+  credentials: 'include'
+};
+
+const res = await fetch(`${process.env.VITE_API_URL}/services`, options);
+const json = await res.json();
+console.log(json);
+
   .then(response => {
+    console.log(response)
     console.log(response.data)
     this.headerFooterModalPreview = false
   })
@@ -128,4 +138,5 @@
       },
     },
   };
+
   </script>
