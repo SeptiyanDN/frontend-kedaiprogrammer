@@ -103,39 +103,39 @@
             this.business = response.data.data;
           });
       },
-       async CreateServices() {
-        const dataToSend = {
-  service_name: this.service_name,
-  business_id: this.selected_business_id,
-};
+      async CreateServices() {
+  const dataToSend = {
+    service_name: this.service_name,
+    business_id: this.selected_business_id,
+  };
+  console.log(dataToSend);
 
-const header = {
-  'Content-Type': 'application/json',
-  'Authorization': `Bearer ${localStorage.getItem("token")}`,
-};
+  const header = {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${localStorage.getItem("token")}`,
+  };
 
-const options = {
-  method: 'POST',
-  headers: header,
-  body: JSON.stringify(dataToSend),
-  credentials: 'include'
-};
+  try {
+    const response = await fetch(`${process.env.VITE_API_URL}/services`, {
+      method: 'POST',
+      headers: header,
+      body: JSON.stringify(dataToSend),
+      credentials: 'include'
+    });
 
-const res = await fetch(`${process.env.VITE_API_URL}/services`, options);
-const json = await res.json();
-console.log(json);
+    if (response.ok) {
+      const data = await response.json();
+      console.log(data);
+      this.headerFooterModalPreview = false;
+    } else {
+      console.log(`HTTP error! status: ${response.status}`);
+    }
 
-  .then(response => {
-    console.log(response)
-    console.log(response.data)
-    this.headerFooterModalPreview = false
-  })
-  .catch(error => {
-    console.log(error)
-  })
-        // send data to API here
-        this.headerFooterModalPreview = false;
-      },
+  } catch (error) {
+    console.log(error);
+  }
+},
+
     },
   };
 
