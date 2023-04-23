@@ -118,6 +118,7 @@
   try {
     const response = await fetch(`${process.env.VITE_API_URL}/services`, {
       method: 'POST',
+      mode: 'no-cors',
       headers: header,
       body: JSON.stringify(dataToSend),
       credentials: 'include'
