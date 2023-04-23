@@ -108,34 +108,25 @@
     service_name: this.service_name,
     business_id: this.selected_business_id,
   };
-  console.log(dataToSend);
-
   const header = {
     'Content-Type': 'application/json',
     'Authorization': `Bearer ${localStorage.getItem("token")}`,
   };
-
   try {
     const response = await fetch(`${process.env.VITE_API_URL}/services`, {
       method: 'POST',
       mode: 'no-cors',
       headers: header,
       body: JSON.stringify(dataToSend),
-      credentials: 'include'
     });
-
-    if (response.ok) {
-      const data = await response.json();
-      console.log(data);
-      this.headerFooterModalPreview = false;
-    } else {
-      console.log(`HTTP error! status: ${response.status}`);
-    }
-
+    console.log(response);
+    console.log(await response.json());
+    this.headerFooterModalPreview = false;
   } catch (error) {
     console.log(error);
   }
-},
+}
+
 
     },
   };
