@@ -113,7 +113,7 @@
     'Authorization': `Bearer ${localStorage.getItem("token")}`,
   };
   try {
-    const response = await fetch(`${process.env.VITE_API_URL}/services`, {
+    const response = await fetch(`${process.env.VITE_API_URL}/services/`, {
       method: 'POST',
       headers: header,
       body: JSON.stringify(dataToSend),
